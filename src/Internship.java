@@ -33,7 +33,6 @@ public class Internship {
         return this.student;
     }
 
-
     public class Student {
         private int num;
         private String name;
