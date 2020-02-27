@@ -2,15 +2,15 @@ public class Internship {
     private String trainingType;
     private String startDate;
     private String endDate;
+    private int internshipDuration;
     private Company company;
     private Student student;
 
-    public Internship(String trainingType, String startDate, String endDate, Company company, Student student) {
+    public Internship(String trainingType, String startDate, String endDate, int internshipDuration) {
         this.trainingType = trainingType;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.company = company;
-        this.student = student;
+        this.internshipDuration = internshipDuration;
     }
 
     public String getTrainingType() {
@@ -25,6 +25,10 @@ public class Internship {
         return this.endDate;
     }
 
+    public int getInternshipDuration() {
+        return this.internshipDuration;
+    }
+
     public Company getCompany() {
         return this.company;
     }
@@ -33,34 +37,54 @@ public class Internship {
         return this.student;
     }
 
+    public void setCompany(String name, String street, String no, String town, String city, String country,
+    String phoneCountryCode, String phoneAreaCode, String phoneNumber, String area, String contactName){
+        company = new Company(name, street, no, town, city, country, phoneCountryCode, phoneAreaCode, phoneNumber, area, contactName);
+    }
+
+    public void setStudent(String num, String name, String birthDay, String birthMonth, String birthYear, String gender,
+            int year, String phoneCountryCode, String phoneAreaCode, String phoneNumber) {
+        student = new Student(num, name, birthDay, birthMonth, birthYear, gender, year, phoneCountryCode, phoneAreaCode, phoneNumber);
+    }
+
     public class Student {
-        private int num;
+        private String num;
         private String name;
-        private String birthdate;
+        private String birthDate;
         private String gender;
         private int year;
         private String phone;
-        
-        public int getNum() {
+
+        public Student(String num, String name, String birthDay, String birthMonth, String birthYear, String gender,
+                int year, String phoneCountryCode, String phoneAreaCode, String phoneNumber) {
+            this.num = num;
+            this.name = name;
+            this.birthDate = birthDay + "." + birthMonth + "." + birthYear;
+            this.gender = gender;
+            this.year = year;
+            this.phone = phoneCountryCode + phoneAreaCode + phoneNumber;
+        }
+
+        public String getNum() {
             return this.num;
         }
-    
+
         public String getName() {
             return this.name;
         }
-    
+
         public String getBirthdate() {
-            return this.birthdate;
+            return this.birthDate;
         }
-    
+
         public String getGender() {
             return this.gender;
         }
-    
+
         public int getYear() {
             return this.year;
         }
-    
+
         public String getPhone() {
             return this.phone;
         }
