@@ -27,6 +27,14 @@ public class Department {
         return TRAININGS;
     }
 
+    public void setInstructor(String title, String name, int i){
+        INSTRUCTORS[i] = new Instructor(title, name);
+    }
+
+    public void setTraining(String type, int duration, int i){
+        TRAININGS[i] = new Training(type, duration);
+    }
+
     public class Instructor {
         private String title;
         private String name;
