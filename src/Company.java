@@ -1,9 +1,13 @@
+package src;
+
 public class Company {
+    public static int globalCompanyID = 0;
     private String name;
     private String address;
     private String phone;
     private String area;
     private String contactName;
+    private int id;
     private int internCount;
 
     public Company(String name, String street, String no, String town, String city, String country,
@@ -13,6 +17,8 @@ public class Company {
         this.phone = phoneCountryCode + phoneAreaCode + phoneNumber;
         this.area = area;
         this.contactName = contactName;
+        this.id = globalCompanyID;
+        globalCompanyID++;
         this.internCount = 1;
     }
 

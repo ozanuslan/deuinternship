@@ -1,4 +1,7 @@
+package src;
+
 public class Department {
+    public static int globalInstructorID;
     private String code;
     private String name;
     private Instructor[] INSTRUCTORS;
@@ -36,12 +39,15 @@ public class Department {
     }
 
     public class Instructor {
+        private int id;
         private String title;
         private String name;
 
         public Instructor(String title, String name){
             this.title = title;
             this.name = name;
+            this.id = globalInstructorID;
+            globalInstructorID++;
         }
 
         public String getTitle(){

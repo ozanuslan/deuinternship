@@ -1,3 +1,5 @@
+package src;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -231,6 +233,12 @@ public class Control {
                             correctLengthData[i][22].strip(), correctLengthData[i][23].strip());
                     companyIndex++;
                 }
+            }
+        }
+
+        for(int i = 0; i<correctLengthData.length; i++){
+            if(correctLengthData[i][0].equalsIgnoreCase("Internship")){
+                
             }
         }
         // todo fill internship data after filtering and filling department data

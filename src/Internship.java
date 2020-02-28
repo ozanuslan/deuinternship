@@ -1,8 +1,12 @@
+package src;
+
 public class Internship {
+    public static int globalInternshipID;
     private String trainingType;
     private String startDate;
     private String endDate;
     private int internshipDuration;
+    private int id;
     private Company company;
     private Student student;
 
@@ -11,6 +15,8 @@ public class Internship {
         this.startDate = startDate;
         this.endDate = endDate;
         this.internshipDuration = internshipDuration;
+        this.id = globalInternshipID;
+        globalInternshipID++;
     }
 
     public String getTrainingType() {
