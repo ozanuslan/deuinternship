@@ -1,7 +1,6 @@
-package src;
 
 public class Company {
-    public static int globalCompanyID = 0;
+    static int globalCompanyID = 0;
     private String name;
     private String address;
     private String phone;
@@ -19,9 +18,10 @@ public class Company {
         this.contactName = contactName;
         this.id = globalCompanyID;
         globalCompanyID++;
-        this.internCount = 1;
+        this.internCount = 0;
     }
 
+    //Init for comparison in inputfile class
     public Company(){
         this.name = "";
     }
@@ -49,7 +49,12 @@ public class Company {
     public int getInternCount(){
         return internCount;
     }
+
     public void incrementInternCount() {
         internCount++;
+    }
+
+    public void displayCompany(){
+        System.out.println(name+" "+area+" "+address+" "+contactName+" "+phone);
     }
 }

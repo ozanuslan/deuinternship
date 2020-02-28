@@ -1,7 +1,6 @@
-package src;
 
 public class Internship {
-    public static int globalInternshipID;
+    static int globalInternshipID;
     private String trainingType;
     private String startDate;
     private String endDate;
@@ -43,14 +42,21 @@ public class Internship {
         return this.student;
     }
 
-    public void setCompany(String name, String street, String no, String town, String city, String country,
-    String phoneCountryCode, String phoneAreaCode, String phoneNumber, String area, String contactName){
-        company = new Company(name, street, no, town, city, country, phoneCountryCode, phoneAreaCode, phoneNumber, area, contactName);
+    public void setCompany(Company company){
+        this.company = company;
     }
 
     public void setStudent(String num, String name, String birthDay, String birthMonth, String birthYear, String gender,
             int year, String phoneCountryCode, String phoneAreaCode, String phoneNumber) {
         student = new Student(num, name, birthDay, birthMonth, birthYear, gender, year, phoneCountryCode, phoneAreaCode, phoneNumber);
+    }
+
+    public void displayInternship(){
+        System.out.println(student.getNum()+" "+company.getName()+" "+trainingType+" "+internshipDuration);
+    }
+
+    public void displayStudent(){
+        student.displayStudent();
     }
 
     public class Student {
@@ -93,6 +99,10 @@ public class Internship {
 
         public String getPhone() {
             return this.phone;
+        }
+
+        public void displayStudent(){
+            System.out.println(num+" "+name+" "+gender+" "+birthDate+" Year:"+year+" "+phone);
         }
     }
 }

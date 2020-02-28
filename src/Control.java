@@ -1,4 +1,3 @@
-package src;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,6 +26,8 @@ public class Control {
                 correctLengthData[i][j] = "";
             }
         }
+
+        //Only taking correct length data lines
         while (r.hasNextLine()) {
             String[] a = r.nextLine().split(",");
             if ((a.length == 24 && a[0].equalsIgnoreCase("Internship"))
@@ -40,6 +41,8 @@ public class Control {
         int deletedLines = 0;
         int departmentCount = 0;
         boolean doesExist;
+
+        //Checking if the department data is correct
         for (int i = 0; i < lineCount; i++) {
             doesExist = false;
             if (correctLengthData[i][0].equalsIgnoreCase("Department")) {
@@ -73,32 +76,38 @@ public class Control {
         }
 
         departments = new Department[departmentCount];
-        int index = 0;
+        int departmentIndex = 0;
+
+        //Filling department and instructor data
         for (int i = 0; i < correctLengthData.length; i++) {
             if (correctLengthData[i][0].equalsIgnoreCase("Department")) {
-                departments[index] = new Department(correctLengthData[i][1].strip(), correctLengthData[i][2].strip());
-                for (int j = 0; j < departments[index].getInstructors().length; j++) {
-                    departments[index].setInstructor(correctLengthData[i][3 + (2 * j)].strip(),
+                departments[departmentIndex] = new Department(correctLengthData[i][1].strip(), correctLengthData[i][2].strip());
+                for (int j = 0; j < departments[departmentIndex].getInstructors().length; j++) {
+                    departments[departmentIndex].setInstructor(correctLengthData[i][3 + (2 * j)].strip(),
                             correctLengthData[i][4 + (2 * j)].strip(), j);
                 }
-                for (int j = 0; j < departments[index].getTrainings().length; j++) {
-                    departments[index].setTraining(correctLengthData[i][9 + (2 * j)].strip(),
+                for (int j = 0; j < departments[departmentIndex].getTrainings().length; j++) {
+                    departments[departmentIndex].setTraining(correctLengthData[i][9 + (2 * j)].strip(),
                             Integer.parseInt(correctLengthData[i][10 + (2 * j)].strip()), j);
                 }
-                index++;
+                departmentIndex++;
             }
         }
 
         int incorrectInternDataCount = 0;
         int internCount = 0;
+
         int companyCount = 0;
         String[] seenCountries = new String[8000];
+        //Initializing the array to avoid nullpointer while making comparisons
         for (int i = 0; i < seenCountries.length; i++) {
             seenCountries[i] = "";
         }
         boolean isSeen;
         for (int i = 0; i < correctLengthData.length; i++) {
             doesExist = false;
+
+            //Checking if student department really exists
             if (correctLengthData[i][0].equalsIgnoreCase("Internship")) {
                 for (int j = 0; j < departments.length; j++) {
                     if (correctLengthData[i][1].equalsIgnoreCase(departments[j].getCode())) {
@@ -115,6 +124,8 @@ public class Control {
                     incorrectInternDataCount++;
                     continue;
                 }
+
+                //Checking date related data
                 try {
                     Integer.parseInt(correctLengthData[i][2].strip());
                     String[] date = correctLengthData[i][4].strip().split("\\.");
@@ -189,6 +200,8 @@ public class Control {
                     continue;
                 }
             }
+
+            //Recording all unique companies
             if (correctLengthData[i][0].equalsIgnoreCase("Internship")) {
                 isSeen = false;
                 for (int j = 0; j < seenCountries.length; j++) {
@@ -208,11 +221,15 @@ public class Control {
             System.out.println(incorrectInternDataCount + " incorrect internship inputs found.");
             System.out.println("These internships will not be evaluated.");
         }
+
+        //Initializing company names for comparison
         companies = new Company[companyCount];
         for (int i = 0; i < companies.length; i++) {
             companies[i] = new Company();
         }
+
         int companyIndex = 0;
+        //Filling company data
         for (int i = 0; i < correctLengthData.length; i++) {
             isSeen = false;
             if (correctLengthData[i][0].equalsIgnoreCase("Internship")) {
@@ -236,12 +253,59 @@ public class Control {
             }
         }
 
-        for(int i = 0; i<correctLengthData.length; i++){
-            if(correctLengthData[i][0].equalsIgnoreCase("Internship")){
-                
+        internships = new Internship[internCount];
+        int internshipIndex = 0;
+
+        //Filling internship and student data
+        for (int i = 0; i < correctLengthData.length; i++) {
+            if (correctLengthData[i][0].equalsIgnoreCase("Internship")) {
+                Company temp = null;
+                for (int j = 0; j < companies.length; j++) {
+                    if (correctLengthData[i][13].strip().equalsIgnoreCase(companies[j].getName())) {
+                        temp = companies[j];
+                        companies[j].incrementInternCount();
+                    }
+                }
+                int d1, d2, m1, m2, y1, y2;
+                String[] date = correctLengthData[i][11].strip().split("\\.");
+                d1 = Integer.parseInt(date[0]);
+                m1 = Integer.parseInt(date[1]);
+                y1 = Integer.parseInt(date[2]);
+                date = correctLengthData[i][12].strip().split("\\.");
+                d2 = Integer.parseInt(date[0]);
+                m2 = Integer.parseInt(date[1]);
+                y2 = Integer.parseInt(date[2]);
+
+                int internshipDuration = (d2 - d1) + (m2 - m1) * 30 + (y2 - y1) * 365;
+                internshipDuration /= 7;
+
+                internships[internshipIndex] = new Internship(correctLengthData[i][10].strip(),
+                        correctLengthData[i][11].strip(), correctLengthData[i][12].strip(), internshipDuration);
+                internships[internshipIndex].setCompany(temp);
+
+                date = correctLengthData[i][4].strip().split("\\.");
+
+                internships[internshipIndex].setStudent(correctLengthData[i][2].strip(),
+                        correctLengthData[i][3].strip(), date[0], date[1], date[2], correctLengthData[i][5].strip(),
+                        Integer.parseInt(correctLengthData[i][6].strip()), correctLengthData[i][7].strip(),
+                        correctLengthData[i][8].strip(), correctLengthData[i][9].strip());
+
+                internshipIndex++;
             }
         }
-        // todo fill internship data after filtering and filling department data
-    }
+        //Insertion sort//
+        //Sorts the companies by their Interncount
+        int n = companies.length; 
+        for (int i = 1; i < n; ++i) { 
+            int key = companies[i].getInternCount(); 
+            int j = i - 1; 
+            Company mem = companies[i];
 
+            while (j >= 0 && companies[j].getInternCount() > key) { 
+                companies[j + 1] = companies[j]; 
+                j = j - 1; 
+            } 
+            companies[j + 1] = mem; 
+        } 
+    }
 }

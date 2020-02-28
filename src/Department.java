@@ -1,7 +1,6 @@
-package src;
 
 public class Department {
-    public static int globalInstructorID;
+    static int globalInstructorID;
     private String code;
     private String name;
     private Instructor[] INSTRUCTORS;
@@ -38,6 +37,23 @@ public class Department {
         TRAININGS[i] = new Training(type, duration);
     }
 
+    public void displayDepartment(){
+        System.out.print(code+" "+name+" (");
+        for(int i = 0; i < TRAININGS.length; i++){
+            if(i < TRAININGS.length-1){
+                System.out.print(TRAININGS[i].getType()+",");
+            }
+            else{
+                System.out.print(TRAININGS[i].getType());
+            }
+        }
+        System.out.println(")");
+    }
+
+    public void displayInstructor(int i){
+        INSTRUCTORS[i].displayInstructor();
+    }
+
     public class Instructor {
         private int id;
         private String title;
@@ -56,6 +72,14 @@ public class Department {
 
         public String getName(){
             return name;
+        }
+
+        public int getID(){
+            return id;
+        }
+
+        public void displayInstructor(){
+            System.out.println(Department.this.code+" "+title+" "+name);
         }
     }
 
